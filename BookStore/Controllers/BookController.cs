@@ -1,5 +1,6 @@
 ﻿using BookStore.Models;
 using BookStore.Repo;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,16 +15,18 @@ namespace BookStore.Controllers
 {
     public class BookController : Controller
     {
-        private readonly BookRepo _bookRepo = null;
-        private readonly LanguageRepo _languageRepo = null;
+        private readonly IBookRepo _bookRepo = null;
+        private readonly ILanguageRepo _languageRepo = null;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public BookController(BookRepo bookRepo, LanguageRepo languageRepo, IWebHostEnvironment webHostEnvironment)
+        public BookController(IBookRepo bookRepo, ILanguageRepo languageRepo, IWebHostEnvironment webHostEnvironment)
         {
             _bookRepo = bookRepo;
             _languageRepo = languageRepo;
             _webHostEnvironment = webHostEnvironment;
         }
+
+        [Route("all-books")]
         public async Task<ViewResult> GetAllBooks()
         {
             var result = await _bookRepo.GetAllBooks();
@@ -42,6 +45,7 @@ namespace BookStore.Controllers
             return _bookRepo.SearchBook(bookName, authorName);
         }
 
+        //[Authorize]
         public async Task<ViewResult> AddNewBook(bool isSuccess = false, int bookId = 0)
         {
             var model = new BookModel();

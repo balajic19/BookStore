@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Repo
 {
-    public class BookRepo
+    public class BookRepo : IBookRepo
     {
         private readonly BookStoreContext _context = null;
 

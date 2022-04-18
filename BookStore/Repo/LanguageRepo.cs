@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Repo
 {
-    public class LanguageRepo
+    public class LanguageRepo : ILanguageRepo
     {
         private readonly BookStoreContext _context = null;
 

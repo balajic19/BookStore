@@ -39,8 +39,9 @@ namespace BookStore
             //    option.HtmlHelperOptions.ClientValidationEnabled = true;
             //});
 
-            services.AddScoped<BookRepo, BookRepo>();
-            services.AddScoped<LanguageRepo, LanguageRepo>();
+
+            services.AddScoped<IBookRepo, BookRepo>();
+            services.AddScoped<ILanguageRepo, LanguageRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,6 +69,10 @@ namespace BookStore
             {
                 //endpoints.MapRazorPages();
                 endpoints.MapDefaultControllerRoute();
+
+                //endpoints.MapControllerRoute(
+                //    name: "Default",
+                //    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
