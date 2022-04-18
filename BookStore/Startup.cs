@@ -1,4 +1,5 @@
 using BookStore.DataBase;
+using BookStore.Repo;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +30,9 @@ namespace BookStore
             services.AddDbContext<BookStoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); 
             services.AddRazorPages();
             services.AddControllersWithViews();
+            //Only For Debug
             //services.AddRazorPages().AddRazorRuntimeCompilation();
+            services.AddScoped<BookRepo, BookRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
