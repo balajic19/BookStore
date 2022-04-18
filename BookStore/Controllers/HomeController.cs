@@ -1,12 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Dynamic;
 namespace BookStore.Controllers
 {
     public class HomeController : Controller
     {
-        [Route("")]
+        private readonly IConfiguration configuration;
+        public HomeController(IConfiguration _configuration)
+        {
+            configuration = _configuration;
+        }
         public ViewResult Index()
         {
+
             return View();
         }
 
