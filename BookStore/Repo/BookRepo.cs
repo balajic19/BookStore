@@ -24,12 +24,12 @@ namespace BookStore.Repo
         {
             return new List<BookModel>()
             {
-                new BookModel(){Id = 1, Title = "MVC", Author = "Balaji"},
-                new BookModel(){Id = 2, Title = "CC", Author = "Balaji"},
-                new BookModel(){Id = 3, Title = "WEG", Author = "Balaji"},
-                new BookModel(){Id = 4, Title = "FGH", Author = "Balaji"},
-                new BookModel(){Id = 5, Title = "WER", Author = "Balaji"},
-                new BookModel(){Id = 6, Title = "JJU", Author = "Balaji"},
+                new BookModel(){Id = 1, Title = "MVC", Author = "Balaji",Description = "Just Testing", Category = "Programming", Language = "English", TotalPages = 100},
+                new BookModel(){Id = 2, Title = "CC", Author = "Balaji",Description = "Just Testing", Category = "Programming", Language = "English", TotalPages = 100},
+                new BookModel(){Id = 3, Title = "WEG", Author = "Balaji",Description = "Just Testing", Category = "Programming", Language = "English", TotalPages = 100},
+                new BookModel(){Id = 4, Title = "FGH", Author = "Balaji",Description = "Just Testing", Category = "Programming", Language = "English", TotalPages = 100},
+                new BookModel(){Id = 5, Title = "WER", Author = "Balaji",Description = "Just Testing", Category = "Programming", Language = "English", TotalPages = 100},
+                new BookModel(){Id = 6, Title = "JJU", Author = "Balaji",Description = "Just Testing", Category = "Programming", Language = "English", TotalPages = 100},
 
             };
         }
