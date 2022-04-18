@@ -30,7 +30,7 @@ namespace BookStore.Controllers
             return View(result);
         }
 
-        [Route("book-details/{id}", Name = "bookDetailsRoute")]
+        [Route("book-details/{id:int:min(1)}", Name = "bookDetailsRoute")]
         public async Task<ViewResult> GetBook(int id)
         {
             var result =  await _bookRepo.GetBookById(id);

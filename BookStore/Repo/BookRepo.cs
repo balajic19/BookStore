@@ -67,23 +67,26 @@ namespace BookStore.Repo
 
         public async Task<BookModel> GetBookById(int id)
         {
-            var book = await _context.Books.FindAsync(id);
-            if (book != null)
-            {
-                var bookDetails = new BookModel()
-                {
-                    Author = book.Author,
-                    Category = book.Category,
-                    Description = book.Description,
-                    Id = book.Id,
-                    LanguageId = book.LanguageId,
-                    Title = book.Title,
-                    TotalPages = book.TotalPages,
-                    CoverImageUrl = book.CoverImageUrl,
-                };
-                return bookDetails;
-            }
-            return null;
+            return await _context.Books.Where(x => x.Id == id)
+                 .Select(book => new BookModel()
+                 {
+                     Author = book.Author,
+                     Category = book.Category,
+                     Description = book.Description,
+                     Id = book.Id,
+                     LanguageId = book.LanguageId,
+                     Language = book.Language.Name,
+                     Title = book.Title,
+                     TotalPages = book.TotalPages,
+                     CoverImageUrl = book.CoverImageUrl,
+                     Gallery = book.bookGallery.Select(g => new GalleryModel()
+                     {
+                         Id = g.Id,
+                         Name = g.Name,
+                         URL = g.URL
+                     }).ToList(),
+                     BookPdfUrl = book.BookPdfUrl
+                 }).FirstOrDefaultAsync();
         }
         public List<BookModel> SearchBook(string title, string authorName)
         {
