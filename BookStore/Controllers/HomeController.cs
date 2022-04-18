@@ -8,10 +8,13 @@ namespace BookStore.Controllers
     {
         private readonly IConfiguration configuration;
         private readonly IUserService _userService;
-        public HomeController(IConfiguration _configuration, IUserService userService)
+        private readonly IEmailService _emailService;
+        public HomeController(IConfiguration _configuration, IUserService userService,
+            IEmailService emailService)
         {
             configuration = _configuration;
             _userService = userService;
+            _emailService = emailService;
         }
         public ViewResult Index()
         {

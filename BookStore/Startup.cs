@@ -34,7 +34,7 @@ namespace BookStore
             services.AddDbContext<BookStoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); 
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<BookStoreContext>();
+                .AddEntityFrameworkStores<BookStoreContext>().AddDefaultTokenProviders();
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequiredLength = 5;
@@ -50,12 +50,17 @@ namespace BookStore
                 options.Lockout.MaxFailedAccessAttempts = 3;
             });
 
+            services.Configure<DataProtectionTokenProviderOptions>(options =>
+            {
+                options.TokenLifespan = TimeSpan.FromMinutes(5);
+            });
+
             services.ConfigureApplicationCookie(config =>
             {
                 config.LoginPath = Configuration["Application:LoginPath"];
             });
 
-            services.AddRazorPages();
+            //services.AddRazorPages();
             services.AddControllersWithViews();
 
 
@@ -71,8 +76,11 @@ namespace BookStore
             services.AddScoped<ILanguageRepo, LanguageRepo>();
             services.AddScoped<IAccountRepo, AccountRepo>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IEmailService, EmailService>();
 
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
+
+            services.Configure<SMTPConfigModel>(Configuration.GetSection("SMTPConfig"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
