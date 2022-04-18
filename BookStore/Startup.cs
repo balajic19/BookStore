@@ -46,6 +46,7 @@ namespace BookStore
 
             services.AddScoped<IBookRepo, BookRepo>();
             services.AddScoped<ILanguageRepo, LanguageRepo>();
+            services.AddScoped<IAccountRepo, AccountRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
