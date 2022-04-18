@@ -30,10 +30,18 @@ namespace BookStore
             services.AddDbContext<BookStoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); 
             services.AddRazorPages();
             services.AddControllersWithViews();
+
+
             //Only For Debug
-            //services.AddRazorPages().AddRazorRuntimeCompilation();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
+            //    .AddViewOptions(option =>
+            //{
+            //    option.HtmlHelperOptions.ClientValidationEnabled = true;
+            //});
+
             services.AddScoped<BookRepo, BookRepo>();
             services.AddScoped<LanguageRepo, LanguageRepo>();
+            //services.AddScoped<ILanguageRepo, ILanguageRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
