@@ -11,10 +11,11 @@ namespace BookStore.Controllers
     public class BookController : Controller
     {
         private readonly BookRepo _bookRepo = null;
-        public BookController(BookRepo bookRepo)
+        private readonly LanguageRepo _languageRepo = null;
+        public BookController(BookRepo bookRepo, LanguageRepo languageRepo)
         {
             _bookRepo = bookRepo;
-        }
+            _languageRepo = languageRepo;        }
         public async Task<ViewResult> GetAllBooks()
         {
             var result = await _bookRepo.GetAllBooks();
@@ -33,10 +34,10 @@ namespace BookStore.Controllers
             return _bookRepo.SearchBook(bookName, authorName);
         }
 
-        public ViewResult AddNewBook(bool isSuccess = false, int bookId = 0)
+        public async Task<ViewResult> AddNewBook(bool isSuccess = false, int bookId = 0)
         {
             
-
+            ViewBag.Language = await _languageRepo.GetLanguages();
             ViewBag.IsSuccess = isSuccess;
             ViewBag.BookId = bookId;
             return View();
@@ -56,6 +57,7 @@ namespace BookStore.Controllers
                 //ViewBag.IsSuccess = false;
                 //ViewBag.BookId = 0;
             }
+            ViewBag.Language = await _languageRepo.GetLanguages();
             return View();
         }
 
