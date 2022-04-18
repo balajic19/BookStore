@@ -9,5 +9,6 @@ namespace BookStore.DataBase
         {
 
         }
+        public DbSet<Books> Books { get; set; }
     }
 }
