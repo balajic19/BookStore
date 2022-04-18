@@ -1,6 +1,8 @@
 using BookStore.DataBase;
+using BookStore.Helper;
 using BookStore.Models;
 using BookStore.Repo;
+using BookStore.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -47,6 +49,12 @@ namespace BookStore
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(20);
                 options.Lockout.MaxFailedAccessAttempts = 3;
             });
+
+            services.ConfigureApplicationCookie(config =>
+            {
+                config.LoginPath = Configuration["Application:LoginPath"];
+            });
+
             services.AddRazorPages();
             services.AddControllersWithViews();
 
@@ -62,6 +70,9 @@ namespace BookStore
             services.AddScoped<IBookRepo, BookRepo>();
             services.AddScoped<ILanguageRepo, LanguageRepo>();
             services.AddScoped<IAccountRepo, AccountRepo>();
+            services.AddScoped<IUserService, UserService>();
+
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,7 +96,7 @@ namespace BookStore
 
             app.UseAuthentication();
 
-            //app.UseAuthorization();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

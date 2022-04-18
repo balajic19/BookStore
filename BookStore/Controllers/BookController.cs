@@ -45,7 +45,7 @@ namespace BookStore.Controllers
             return _bookRepo.SearchBook(bookName, authorName);
         }
 
-        //[Authorize]
+        [Authorize]
         public async Task<ViewResult> AddNewBook(bool isSuccess = false, int bookId = 0)
         {
             var model = new BookModel();
