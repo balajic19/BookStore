@@ -61,8 +61,26 @@ namespace BookStore.Repo
                       Language = book.Language.Name,
                       Title = book.Title,
                       TotalPages = book.TotalPages,
-                      CoverImageUrl = book.CoverImageUrl
+                      CoverImageUrl = book.CoverImageUrl,
+                      BookPdfUrl = book.BookPdfUrl
                   }).ToListAsync();
+        }
+
+        public async Task<List<BookModel>> GetTopBooksAsync(int count)
+        {
+            return await _context.Books
+                  .Select(book => new BookModel()
+                  {
+                      Author = book.Author,
+                      Category = book.Category,
+                      Description = book.Description,
+                      Id = book.Id,
+                      LanguageId = book.LanguageId,
+                      Language = book.Language.Name,
+                      Title = book.Title,
+                      TotalPages = book.TotalPages,
+                      CoverImageUrl = book.CoverImageUrl
+                  }).Take(count).ToListAsync();
         }
 
         public async Task<BookModel> GetBookById(int id)
