@@ -7,7 +7,7 @@ namespace BookStore.Repo
     public interface IAccountRepo
     {
         Task<IdentityResult> CreateUserAsync(SignUpUserModel userModel);
-
         Task<IdentityResult> ConfirmEmailAsync(string uid, string token);
+        Task<SignInResult> PasswordSignInAsync(SignInModel signInModel);
     }
 }
