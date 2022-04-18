@@ -45,5 +45,27 @@ namespace BookStore.Controllers
 
             return View(userModel);
         }
+
+
+        [HttpGet("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(string uid, string token, string email)
+        {
+            EmailConfirmModel model = new EmailConfirmModel
+            {
+                Email = email
+            };
+
+            if (!string.IsNullOrEmpty(uid) && !string.IsNullOrEmpty(token))
+            {
+                token = token.Replace(' ', '+');
+                var result = await _accountRepository.ConfirmEmailAsync(uid, token);
+                if (result.Succeeded)
+                {
+                    model.EmailVerified = true;
+                }
+            }
+
+            return View(model);
+        }
     }
 }

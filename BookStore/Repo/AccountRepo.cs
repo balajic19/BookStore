@@ -23,5 +23,10 @@ namespace BookStore.Repo
             return result;
         }
 
+        public async Task<IdentityResult> ConfirmEmailAsync(string uid, string token)
+        {
+            return await _userManager.ConfirmEmailAsync(await _userManager.FindByIdAsync(uid), token);
+        }
+
     }
 }
