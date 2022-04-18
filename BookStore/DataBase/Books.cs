@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BookStore.DataBase
 {
@@ -11,9 +12,12 @@ namespace BookStore.DataBase
         public string Category { get; set; }
         public int LanguageId { get; set; }
         public int TotalPages { get; set; }
+        public string CoverImageUrl { get; set; }
+        public string BookPdfUrl { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? UpdatedOn { get; set; }
 
-        public Language language { get; set; }
+        public Language Language { get; set; }
+        public ICollection<BookGallery> bookGallery { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BookStore.DataBase;
 using BookStore.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,40 +21,48 @@ namespace BookStore.Repo
             var newBook = new Books()
             {
                 Author = model.Author,
-                CreatedOn = System.DateTime.Now,
+                CreatedOn = DateTime.UtcNow,
                 Description = model.Description,
                 Title = model.Title,
                 LanguageId = model.LanguageId,
                 TotalPages = model.TotalPages.HasValue ? model.TotalPages.Value : 0,
-                UpdatedOn = System.DateTime.Now,
+                UpdatedOn = DateTime.UtcNow,
+                CoverImageUrl = model.CoverImageUrl,
+                BookPdfUrl = model.BookPdfUrl
             };
+
+            newBook.bookGallery = new List<BookGallery>();
+
+            foreach (var file in model.Gallery)
+            {
+                newBook.bookGallery.Add(new BookGallery()
+                {
+                    Name = file.Name,
+                    URL = file.URL
+                });
+            }
 
             await _context.Books.AddAsync(newBook);
             await _context.SaveChangesAsync();
 
             return newBook.Id;
+
         }
         public async Task<List<BookModel>> GetAllBooks()
         {
-            var allBooks = new List<BookModel>();
-            var result = await _context.Books.ToListAsync();
-            if(result?.Any() == true)
-            {
-                foreach(var book in result)
-                {
-                    allBooks.Add(new BookModel()
-                    {
-                        Author = book.Author,
-                        Category = book.Category,
-                        Description = book.Description,
-                        Id = book.Id,
-                        LanguageId = book.LanguageId,
-                        Title = book.Title,
-                        TotalPages= book.TotalPages
-                    });
-                }
-            }
-            return allBooks;
+            return await _context.Books
+                  .Select(book => new BookModel()
+                  {
+                      Author = book.Author,
+                      Category = book.Category,
+                      Description = book.Description,
+                      Id = book.Id,
+                      LanguageId = book.LanguageId,
+                      Language = book.Language.Name,
+                      Title = book.Title,
+                      TotalPages = book.TotalPages,
+                      CoverImageUrl = book.CoverImageUrl
+                  }).ToListAsync();
         }
 
         public async Task<BookModel> GetBookById(int id)
@@ -69,7 +78,8 @@ namespace BookStore.Repo
                     Id = book.Id,
                     LanguageId = book.LanguageId,
                     Title = book.Title,
-                    TotalPages = book.TotalPages
+                    TotalPages = book.TotalPages,
+                    CoverImageUrl = book.CoverImageUrl,
                 };
                 return bookDetails;
             }
